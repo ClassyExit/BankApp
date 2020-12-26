@@ -85,3 +85,6 @@ class User:
                     datetime.datetime.today()))
         # login = True: success login. login = False: Invalid
         return login
+    
+    # TODO: Return login, name, account #, balance with successful login
+    # TODO: Display current balance + account # on log in screen
