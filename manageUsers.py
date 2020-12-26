@@ -1,5 +1,5 @@
 # File to maintain user data and login credentials
-import csv, os, datetime
+import csv, os, datetime, random
 
 #TODO: Add account generation
 #TODO: Add login validation
@@ -9,13 +9,20 @@ class User:
     def __init__(self):
         pass
 
+
+    def accountNum_gen(self):
+        rand_value = random.randint(000000000, 999999999)
+        # TODO: Add to check for same existing account numbers
+
+        return rand_value
+
     # Add new user
     def newUser(self):
         # Add new user data
         newUser = {'name':"", 'pin': 0, 'account_number': 0, 'account_balance': 0}
         newUser['name'] = input(print("Enter your name: "))
         newUser['pin'] = int(input(print("Enter a pin: ")))
-        newUser['account_number'] = 111111111 #TODO: Generate account number
+        newUser['account_number'] = self.accountNum_gen(self)
         newUser['account_balance'] = 0
 
 
@@ -32,7 +39,6 @@ class User:
         with open('backlog.txt', 'a') as backlog:
             backlog.write(f"\nNew User created: Username: {newUser['name']}, account number: {newUser['account_number']}"
                           f" on " + str(datetime.datetime.today()))
-
 
 
     # Check to see if user has account
@@ -76,6 +82,8 @@ class User:
             with open('backlog.txt','a') as file:
                 file.write("\n"+str(name) + " ("+str(account_number) + ") has successfully logged in at " + str(datetime.datetime.today()))
 
+            return True, name, account_number
+
         # Login Failed
         else:
             login = False
@@ -83,8 +91,5 @@ class User:
             with open('backlog.txt', 'a') as file:
                 file.write("\nUser know as " + name + " has attempted to log in but was unsuccessful at " + str(
                     datetime.datetime.today()))
-        # login = True: success login. login = False: Invalid
-        return login
-    
-    # TODO: Return login, name, account #, balance with successful login
-    # TODO: Display current balance + account # on log in screen
+            return False, name, account_number
+

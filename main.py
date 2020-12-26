@@ -4,7 +4,6 @@ from os import path
 from manageUsers import User
 
 # TODO:
-# Run validation for user login
 # Setup main loop
 # Setup bank accounts
 
@@ -13,37 +12,18 @@ class bankAccount:
     def __init__(self):
         pass
 
-    def deposit(self, user_name):
+    def deposit(self, user_name, accountNum):
         # deposit function for the user
         pass
 
 
-    def withdrawl(self, user_name):
+    def withdrawl(self, user_name, accountNum):
         # withdrawl function for the user
         pass
 
-    def transaction(self, username):
+    def transaction(self, username, accountNum):
         # Add a backlog of all transactions that occur
         pass
-
-
-
-def mainScreen():
-    try:
-        while True:
-            x = int(input(print('Press 1 to login \nPress 2 to Create New Account')))
-            if x == 1:
-                # run login
-                pass
-            elif x == 2:
-                # Run new account creation
-                User.newUser()
-
-    except:
-        # Leave empty unless for errors
-        pass
-
-    return x
 
 
 # Initializes file
@@ -59,13 +39,25 @@ def fileCheck():
             csv_file.writeheader()
             print("Users file created.")
 
+
+def mainScreen():
+    while True:
+        x = int(input(print('Press 1 to login \nPress 2 to Create New Account')))
+        if x == 1:
+            # run login
+            valid, name, accountNumber = User.validateLogin(self=User)
+
+            # TODO: Sign into bank if valid == True
+
+        elif x == 2:
+            # Run new account creation
+            User.newUser(self=User)
+
+            
 if __name__ == '__main__':
     fileCheck()
 
     while True:
-        y = mainScreen()
+        mainScreen()
 
-        if y == 1:
-            User.validateLogin(self=User)
-        elif y == 2:
-            User.newUser(self=User)
+
