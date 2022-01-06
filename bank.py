@@ -35,29 +35,63 @@ class Bank:
 
 
 	def logout(self):
-		pass
+
 		#close out connection
-		# self.conn.close()
+		self.conn.close()
+		print("You've logged out!")
+
+		acc = None # reset the accout number to None
+		return acc
 
 	def deposit(self,accountNum,*args,**kwargs):
 		# Deposit to balance
-		pass
+		if accountNum == None or 0:
+			print("You need to log in!")
+		else: # deposit funds
 
-		#GENERAL TEMPLATE
-		# with conn:
-		#   # do stuff
+			currentBal = self.balanceView(accountNum) # get current balance
 
-		#   self.sqlconnection.commit()
+			while True:
+				try:
+					balance_request = float(input("Please enter your deposit: "))
+				except balance_request < 0:
+					print("Deposit must be greater than 0!")
+
+				else:
+					print("Request Authorized")
+
+					newBalance = currentBal + balance_request
+
+					self.c.execute("UPDATE users SET balance=:balance WHERE accountNum =:accountNum",
+						{
+							'accountNum':accountNum,
+							'balance':newBalance
+						})
+					print(f"You're new balance is ${newBalance}")
+					break
+
+			self.sqlconnection.commit()
 
 	def withdrawl(self):
 		# Withdrawl from balance
 		pass
 
 
-	def balanceView(self):
+	def balanceView(self, accountNum,*args,**kwargs):
 		# view current balance
-		pass
+		if ("username" and "password") in kwargs:
+			self.c.execute("SELECT balance FROM users WHERE username = :username and password = :password",
+						{
+						'username':kwargs["username"],
+						'password':kwargs["password"]
+						})
 
-	def transaction(self):
-		# record transaction details
-		pass
+		else:
+			self.c.execute("SELECT balance FROM users WHERE accountNum = :accountNum", {'accountNum':accountNum})
+
+		currentBal = self.c.fetchone()
+		return currentBal[0]
+
+
+
+
