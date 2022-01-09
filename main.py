@@ -1,6 +1,6 @@
-from userDatabase import *
-from bank import *
-
+from userDatabase import Database
+from bank import Bank
+from gui import gui
 
 
 
@@ -9,30 +9,30 @@ if __name__ == '__main__':
 
 	u = Database()
 	b = Bank()
-
-	conn = sqlite3.connect('userDatabase.db')
-	c = conn.cursor()
+	g = gui()
 
 
 	u.displayData()
-	acc = 517597896
-	print(f"ACC:{acc}")
+	# acc = 517597896
+	# print(f"ACC:{acc}")
 
-	# c.execute("UPDATE users SET balance = :balance WHERE username = :username", {'username':'Alex', 'balance':1000})
-	conn.commit()
-	username = 'Alex'
-	password = '1234'
+	# username = 'Alex'
+	# password = '1234'
 
-	# print(b.balanceView(acc))
-	print(b.balanceView(acc,username=username,password=password))
-	# a = b.balanceView(acc,username=username,password=password)
-	# new = a + 2
-	# c.execute("UPDATE users SET balance = :balance WHERE username = :username", {'username':'Alex', 'balance':new})
-	# conn.commit()
+	# print(b.balanceView(acc,username=username,password=password))
 
-	b.deposit(acc)
+	# b.deposit(acc)
 
-	print(b.balanceView(acc,username=username,password=password))
+	# print(b.balanceView(acc,username=username,password=password))
+
+	# b.withdrawl(acc)
+
+	# print(b.balanceView(acc,username=username,password=password))
+	g = gui()
+
+
+	# u,p = g.mainScreen()
+	g.MainScreen()
 
 
 
