@@ -7,6 +7,7 @@ class ValueTooSmallError(Exception):
     # Deposit request is < 0
     def Err_01(self):
         print("Request must be greater than 0!")
+        return "Request must be greater than 0!"
 
 
 class ValueTooBigError(Exception):
@@ -15,3 +16,4 @@ class ValueTooBigError(Exception):
     # Withdrawl exceeds balance
     def Err_01(self):
         print("Your request exceeds your available balance!")
+        return "Your request exceeds your available balance!"

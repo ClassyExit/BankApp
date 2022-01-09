@@ -45,7 +45,7 @@ class Bank:
 		acc = None # reset the accout number
 		return acc
 
-	def deposit(self,accountNum,*args,**kwargs):
+	def deposit(self,accountNum,depositAmount,*args,**kwargs):
 		# Deposit to balance
 		if accountNum == None or 0:
 			print("You need to log in!")
@@ -55,15 +55,19 @@ class Bank:
 
 			while True:
 				try:
-					balance_request = float(input("Please enter your deposit amount: "))
+					balance_request = float(depositAmount)
 
 					if balance_request < 0:
 						raise ValueTooSmallError
 
 				except ValueError:
 					print("Must be a valid number!")
+					return 'Must be a valid number!'
+
 				except ValueTooSmallError as VTSE:
-					VTSE.Err_01()
+					err = VTSE.Err_01()
+					return err
+
 
 				else:
 					print("Request Authorized")
@@ -75,12 +79,15 @@ class Bank:
 							'accountNum':accountNum,
 							'balance':newBalance
 						})
+
 					print(f"Your new balance is ${newBalance}")
-					break
 
-			self.sqlconnection.commit()
+					self.sqlconnection.commit()
+					return True
 
-	def withdrawl(self,accountNum,*args,**kwargs):
+
+
+	def withdrawl(self,accountNum,withdrawlAmount,*args,**kwargs):
 		# Withdrawl from balance
 		if accountNum == None or 0:
 			print("You need to log in!")
@@ -89,7 +96,7 @@ class Bank:
 
 			while True:
 				try:
-					withdrawl_request = float(input("Please enter your withdrawl amount: "))
+					withdrawl_request = float(withdrawlAmount)
 
 					if withdrawl_request < 0:
 						raise ValueTooSmallError
@@ -97,11 +104,15 @@ class Bank:
 						raise ValueTooBigError
 
 				except ValueError:
-					print("Must be a valid number!")
+					err = 'Must be a valid number!'
+					print(err)
+					return err
 				except ValueTooBigError as VTBE:
-					VTBE.Err_01()
+					err = VTBE.Err_01()
+					return err
 				except ValueTooSmallError as VTSE:
-					VTSE.Err_01()
+					err = VTSE.Err_01()
+					return err
 
 				else:
 					print("Withdrawl successful")
@@ -115,10 +126,8 @@ class Bank:
 						})
 
 					print(f"Your new balance is ${newBalance}")
-					break
-
-			self.sqlconnection.commit()
-
+					self.sqlconnection.commit()
+					return True
 
 
 	def balanceView(self, accountNum,*args,**kwargs):
