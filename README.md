@@ -7,6 +7,7 @@ A project that runs a mini bank application allowing users to:
 * withdraw funds
 
 Images of the application:
+
 ![download](https://user-images.githubusercontent.com/70489008/148706438-c84f4a82-8636-4ab8-a205-3910b9b0dd9d.png)
 
 ![download](https://user-images.githubusercontent.com/70489008/148706441-cb2c6357-6eeb-44b5-afc9-568cefc555f9.png)
