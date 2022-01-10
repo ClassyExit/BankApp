@@ -11,7 +11,7 @@ class Bank:
 		self.c = self.sqlconnection.cursor()
 
 	def login(self, username, password):
-		""" Return account number and login status"""
+		"""Allow user to log into their account"""
 
 		# User credentials
 		u = username
@@ -23,7 +23,7 @@ class Bank:
 
 		if(result):
 			print("Login successful!")
-			# return the accountNum
+			# find the users account Number
 			self.c.execute("SELECT accountNum FROM users WHERE username = :username and password = :password",
 						{
 						'username':u,
@@ -38,7 +38,7 @@ class Bank:
 
 
 	def logout(self):
-
+		"""Allow user to log out from their account"""
 		self.conn.close() #close out connection
 		print("You've logged out!")
 
@@ -46,7 +46,8 @@ class Bank:
 		return acc
 
 	def deposit(self,accountNum,depositAmount,*args,**kwargs):
-		# Deposit to balance
+		"""Allow the user to deposit funds into their accounts"""
+
 		if accountNum == None or 0:
 			print("You need to log in!")
 		else: # deposit funds
@@ -88,7 +89,8 @@ class Bank:
 
 
 	def withdrawl(self,accountNum,withdrawlAmount,*args,**kwargs):
-		# Withdrawl from balance
+		"""Allow user to withdraw from their account"""
+
 		if accountNum == None or 0:
 			print("You need to log in!")
 		else: # withdraw funds
@@ -131,7 +133,7 @@ class Bank:
 
 
 	def balanceView(self, accountNum,*args,**kwargs):
-		# view current balance
+		"""Allow user to see their account balance"""
 		if ("username" and "password") in kwargs:
 			self.c.execute("SELECT balance FROM users WHERE username = :username and password = :password",
 						{

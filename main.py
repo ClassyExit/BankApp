@@ -2,7 +2,6 @@ from userDatabase import Database
 from bank import Bank
 from gui import gui
 
-import sqlite3
 
 
 

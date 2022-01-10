@@ -135,11 +135,12 @@ class gui(Bank, Database):
 		while True:
 			event, values = window.read()
 
-
+			# If logout or window is closed return to mainscreen
 			if event == sg.WIN_CLOSED or event == 'Logout': # If user exits or closes window
 				window.close()
 				return self.MainScreen()
 
+			# User depositing funds
 			if event == 'Deposit':
 				# Get deposit amount
 				dAmount = values['DepositAmount']
@@ -153,6 +154,7 @@ class gui(Bank, Database):
 					# problem
 					sg.PopupAutoClose(f"{status}", auto_close_duration=2, title="Error")
 
+			# User withdrawling funds
 			if event == 'Withdraw':
 				# Get withdraw amount
 				wAmount = values['WithdrawAmount']
@@ -166,6 +168,7 @@ class gui(Bank, Database):
 					# problem
 					sg.PopupAutoClose(f"{status}", auto_close_duration=2, title="Error")
 
+			# User is deleting their accounts
 			if event == 'Delete Account':
 				window.close() # close current window
 
@@ -191,6 +194,7 @@ class gui(Bank, Database):
 						u = values['username']
 						p = values['password']
 
+						# Confirm the account details
 						status = Database.removeUser(self,u,p)
 
 						if status == True:
