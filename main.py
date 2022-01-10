@@ -12,7 +12,7 @@ if __name__ == '__main__':
 	b = Bank()
 	g = gui()
 
-	# Shows current user in console
+	# Shows current user in database in console
 	u.displayData()
 
 	g.MainScreen()

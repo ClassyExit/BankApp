@@ -66,8 +66,8 @@ class gui(Bank, Database):
 		sg.theme(CreateUserTheme)
 
 		layout = [	[sg.Text("Create Account")],
-					[sg.Text("Enter username: "),sg.InputText()],
-					[sg.Text("Enter password: "),sg.InputText()],
+					[sg.Text("Enter username: "),sg.InputText('',key='username')],
+					[sg.Text("Enter password: "),sg.InputText('',key='password')],
 					[sg.Button("Create")],
 					[sg.Button("Exit")]
 				]
@@ -78,33 +78,39 @@ class gui(Bank, Database):
 		while True:
 			event, values = window.read()
 
-			input_username = values[0]
-			input_password = values[1]
-
-			# find if user exists
-			user_exist = Database.findUser(self,input_username, input_password)
+			try:
+				input_username = values['username']
+				input_password = values['password']
 
 
-			# Close/Exit window
-			if event == sg.WIN_CLOSED or event == 'Exit': # If user exits or closes window
-				window.close()
-				self.MainScreen()
+				# find if user exists
+				user_exist = Database.findUser(self,input_username, input_password)
 
-			# User exists
-			elif user_exist:
-				sg.Popup("Account exists!", keep_on_top=True)
-			else:
-				# Add user to database
-				try:
-					Database.createUser(self,input_username,input_password)
 
-				except Exception:
-					sg.Popup("There is an Error. Please try again")
-
-				else:
-					sg.Popup("Account created! You may log in now.")
+				# Close/Exit window
+				if event == sg.WIN_CLOSED or event == 'Exit': # If user exits or closes window
 					window.close()
 					self.MainScreen()
+
+				# User exists
+				elif user_exist:
+					sg.Popup("Account exists!", keep_on_top=True)
+
+				else: # Add user to database
+
+					try:
+						Database.createUser(self,input_username,input_password)
+
+					except Exception:
+						sg.Popup("There is an Error. Please try again")
+
+					else:
+						sg.Popup("Account created! You may log in now.")
+						window.close()
+						self.MainScreen()
+			except TypeError:
+				# No input
+				break
 
 
 	def loggedIn(self, accountNum):
@@ -132,7 +138,7 @@ class gui(Bank, Database):
 
 			if event == sg.WIN_CLOSED or event == 'Logout': # If user exits or closes window
 				window.close()
-				self.MainScreen()
+				return self.MainScreen()
 
 			if event == 'Deposit':
 				# Get deposit amount
@@ -140,9 +146,9 @@ class gui(Bank, Database):
 				status = Bank.deposit(self,accNum,dAmount)
 
 				if status == True:
-					sg.PopupAutoClose(f"Deposit of {dAmount} successful!", auto_close_duration=3, title='Transaction')
+					sg.PopupAutoClose(f"Deposit of ${dAmount} successful!", auto_close_duration=3, title='Transaction')
 					window.close()
-					self.loggedIn(accNum)
+					return self.loggedIn(accNum)
 				else:
 					# problem
 					sg.PopupAutoClose(f"{status}", auto_close_duration=2, title="Error")
@@ -153,12 +159,48 @@ class gui(Bank, Database):
 				status = Bank.withdrawl(self,accNum,wAmount)
 
 				if status == True:
-					sg.PopupAutoClose(f"Withdraw of {wAmount} successful!", auto_close_duration=3, title='Transaction')
+					sg.PopupAutoClose(f"Withdraw of ${wAmount} successful!", auto_close_duration=3, title='Transaction')
 					window.close()
-					self.loggedIn(accNum)
+					return self.loggedIn(accNum)
 				else:
 					# problem
 					sg.PopupAutoClose(f"{status}", auto_close_duration=2, title="Error")
+
+			if event == 'Delete Account':
+				window.close() # close current window
+
+				layout_delete = [	[sg.Text("Enter your credentials to delete your account")],
+									[sg.Text("Enter username: "),sg.InputText('',key='username')],
+									[sg.Text("Enter passsword: "),sg.InputText('',key='password')],
+									[sg.Button("Confirm Delete")],
+									[sg.Button("Back")]
+								]
+
+
+				window = sg.Window('Delete', layout_delete, size=(500,500))
+
+				while True:
+					event, values = window.read()
+
+					if event == 'Back' or event == sg.WIN_CLOSED:
+						# return to account info screen
+						window.close()
+						return self.loggedIn(accNum)
+
+					if event == "Confirm Delete":
+						u = values['username']
+						p = values['password']
+
+						status = Database.removeUser(self,u,p)
+
+						if status == True:
+							# User deleted
+							sg.PopupAutoClose("Account Deleted!", auto_close_duration=1)
+							window.close()
+							return self.MainScreen()
+						else:
+							sg.PopupAutoClose("Error! Invalid Credentials!", auto_close_duration=1)
+
 
 
 
