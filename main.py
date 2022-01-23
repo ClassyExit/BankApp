@@ -12,7 +12,7 @@ if __name__ == '__main__':
 	g = gui()
 
 	# Shows current user in database in console
-	u.displayData()
+	# u.displayData()
 
 	g.MainScreen()
 
