@@ -1,4 +1,4 @@
-.db # Any database files 
+.db
 __pycache__/
 
 
