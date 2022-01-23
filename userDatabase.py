@@ -28,8 +28,9 @@ class Database:
             sqlconnection.close()
             print("Database created!")
 
-    # Display users
     def displayData(self):
+        """Displays the current users in the terminal"""
+        
         sqlconnection = sqlite3.connect(database_file)
         c = sqlconnection.cursor()
 
@@ -56,6 +57,7 @@ class Database:
 
     def removeUser(self,username,password):
         """Removes user from the database file"""
+        
         u = username
         p = password
 
@@ -82,6 +84,7 @@ class Database:
 
     def findUser(self, username, password):
         """Finds if a user exists in the database"""
+        
         sqlconnection = sqlite3.connect(database_file)
         c = sqlconnection.cursor()
 
@@ -109,6 +112,7 @@ class Database:
 
     def getUserInfo(self, accountNum):
         """Retrieve user data from database file"""
+        
         sqlconnection = sqlite3.connect(database_file)
         c = sqlconnection.cursor()
 
@@ -118,7 +122,6 @@ class Database:
 
         username = result[0]
         balance = result[1]
-
 
         return username, balance
 
