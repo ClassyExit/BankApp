@@ -7,14 +7,9 @@ from gui import gui
 
 if __name__ == '__main__':
 
-	u = Database()
-	b = Bank()
+	# u = Database() # Database class
+	# b = Bank() # Bank class
 	g = gui()
 
-	# Shows current user in database in console
-	# u.displayData()
-
 	g.MainScreen()
-
-
 
