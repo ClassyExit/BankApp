@@ -7,6 +7,7 @@ database_file = 'userDatabase.db'
 
 class Bank:
 	def __init__(self):
+		# Connect to database
 		self.sqlconnection = sqlite3.connect(database_file)
 		self.c = self.sqlconnection.cursor()
 
@@ -107,7 +108,6 @@ class Bank:
 
 				except ValueError:
 					err = 'Must be a valid number!'
-					print(err)
 					return err
 				except ValueTooBigError as VTBE:
 					err = VTBE.Err_01()
